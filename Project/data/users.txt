@@ -1,0 +1,3 @@
+USR0001|STUDENT|Demo Student|student@library.local|ACTIVE
+USR0002|FACULTY|Demo Faculty|faculty@library.local|ACTIVE
+USR0003|ADMIN|Repository Admin|admin@library.local|ACTIVE

@@ -1,0 +1,13 @@
+package digitallibrary.http;
+import digitallibrary.model.Resource;
+import java.lang.reflect.Array;
+import java.util.*;
+public final class JsonUtil{
+    private JsonUtil(){}
+    public static String toJson(Object o){StringBuilder b=new StringBuilder();write(b,o);return b.toString();}
+    private static void write(StringBuilder b,Object o){if(o==null){b.append("null");return;}if(o instanceof Resource r){write(b,r.toMap());return;}if(o instanceof String s){b.append('"');escape(b,s);b.append('"');return;}if(o instanceof Number||o instanceof Boolean){b.append(o);return;}if(o instanceof Map<?,?>m){b.append('{');boolean first=true;for(var e:m.entrySet()){if(!first)b.append(',');first=false;write(b,String.valueOf(e.getKey()));b.append(':');write(b,e.getValue());}b.append('}');return;}if(o instanceof Iterable<?>it){b.append('[');boolean first=true;for(Object x:it){if(!first)b.append(',');first=false;write(b,x);}b.append(']');return;}if(o.getClass().isArray()){b.append('[');for(int i=0;i<Array.getLength(o);i++){if(i>0)b.append(',');write(b,Array.get(o,i));}b.append(']');return;}write(b,String.valueOf(o));}
+    private static void escape(StringBuilder b,String s){for(int i=0;i<s.length();i++){char c=s.charAt(i);switch(c){case'"'->b.append("\\\"");case'\\'->b.append("\\\\");case'\n'->b.append("\\n");case'\r'->b.append("\\r");case'\t'->b.append("\\t");default->{if(c<32)b.append(String.format("\\u%04x",(int)c));else b.append(c);}}}}
+    public static Map<String,String> parseFlatObject(String json){Map<String,String>m=new LinkedHashMap<>();if(json==null)return m;int i=0,n=json.length();while(i<n&&Character.isWhitespace(json.charAt(i)))i++;if(i<n&&json.charAt(i)=='{')i++;while(i<n){while(i<n&&(Character.isWhitespace(json.charAt(i))||json.charAt(i)==','))i++;if(i>=n||json.charAt(i)=='}')break;Parse p=parseString(json,i);String key=p.v;i=p.i;while(i<n&&(Character.isWhitespace(json.charAt(i))||json.charAt(i)==':'))i++;String val;if(i<n&&json.charAt(i)=='"'){p=parseString(json,i);val=p.v;i=p.i;}else{int st=i;while(i<n&&json.charAt(i)!=','&&json.charAt(i)!='}')i++;val=json.substring(st,i).trim();}m.put(key,val);}return m;}
+    private record Parse(String v,int i){}
+    private static Parse parseString(String s,int i){while(i<s.length()&&Character.isWhitespace(s.charAt(i)))i++;if(i>=s.length()||s.charAt(i)!='"')throw new IllegalArgumentException("Expected JSON string");i++;StringBuilder b=new StringBuilder();while(i<s.length()){char c=s.charAt(i++);if(c=='"')break;if(c=='\\'&&i<s.length()){char e=s.charAt(i++);b.append(switch(e){case'n'->'\n';case'r'->'\r';case't'->'\t';case'"'->'"';case'\\'->'\\';default->e;});}else b.append(c);}return new Parse(b.toString(),i);}
+}

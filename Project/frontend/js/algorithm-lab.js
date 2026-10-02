@@ -1,0 +1,11 @@
+let active='CO1';
+const explanations={
+  CO1:'Handout CO1: evaluate the problem signature and select the appropriate advanced algorithm strategy using complexity and suitability.',
+  CO2:'Handout CO2: apply KMP, Z-function, Rabin-Karp and suffix structures; this build also demonstrates Aho-Corasick and Kasai LCP from the module.',
+  CO3:'Handout CO3: apply Interval DP, Bitmask DP, DP on Trees and DP on Subsets for combinatorial optimisation. Edit distance and sequence alignment are shown as Module-3 applications.',
+  CO4:'Handout CO4: apply Ford-Fulkerson/Edmonds-Karp, Dinic concepts and max-flow/min-cut to matching, assignment and capacity-constrained problems.',
+  CO5:'Handout CO5: analyse P/NP/NP-complete/NP-hard and reductions, then use approximation with a provable ratio; this build demonstrates Vertex Cover 2-approximation.',
+  CO6:'Handout CO6: apply Las Vegas/Monte Carlo randomised algorithms plus parallel prefix, parallel reduce and work-span analysis.'
+};
+async function run(){labJson.textContent='Running…';try{const q=labQuery.value.trim()||'algorithm';const d=await API.lab(active,q);labCO.textContent=d.co||active;labTitle.textContent=d.title||active;labDataset.textContent=fmt(d.datasetSize||0);labExplain.textContent=explanations[active];labJson.textContent=JSON.stringify(d,null,2)}catch(e){labJson.textContent='Error: '+e.message}}
+document.addEventListener('DOMContentLoaded',()=>{window.labQuery=document.getElementById('labQuery');window.labJson=document.getElementById('labJson');window.labCO=document.getElementById('labCO');window.labTitle=document.getElementById('labTitle');window.labDataset=document.getElementById('labDataset');window.labExplain=document.getElementById('labExplain');document.querySelectorAll('.lab-menu button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.lab-menu button').forEach(x=>x.classList.remove('active'));b.classList.add('active');active=b.dataset.co;run()}));document.getElementById('runLab').addEventListener('click',run);run()});
