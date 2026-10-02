@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Algorithm Lab · Digital Library</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="experience-page">
+<div class="experience-shell">
+  <nav class="nav"><div class="container nav-inner">
+    <a class="brand" href="index.html"><span class="brand-mark"></span><span>Digital Library</span></a>
+    <div class="nav-links"><a href="index.html">Home</a><a href="explore.html">Explore</a><a href="search.html">Advanced Search</a><a href="algorithm-lab.html">Algorithm Lab</a><a href="analytics.html">Analytics</a></div>
+    <div class="nav-actions"><a class="btn" href="admin.html">Admin</a></div>
+  </div></nav>
+
+  <main class="container page-main">
+    <header class="page-head reveal">
+      <div class="eyebrow">25CS2103E · handout-accurate faculty demonstration</div>
+      <h1>CO1 → CO6, mapped exactly to DSA-3.</h1>
+      <p>The Digital Library is the application domain. This lab runs the advanced algorithms required by the official DSA-3 handout against the same 50,000-record repository.</p>
+    </header>
+
+    <section class="card reveal" style="margin-bottom:24px">
+      <div class="eyebrow">Official CO mapping used in this build</div>
+      <div class="results-grid" style="margin-top:16px">
+        <article class="card"><div class="type">CO1</div><h3>Problem Classification</h3><p>Select the right advanced strategy from the problem signature and complexity.</p></article>
+        <article class="card"><div class="type">CO2</div><h3>String Algorithms</h3><p>KMP, Z, Rabin-Karp, Aho-Corasick, Suffix Array and LCP/Kasai.</p></article>
+        <article class="card"><div class="type">CO3</div><h3>Advanced DP</h3><p>Interval DP, Bitmask DP, DP on Trees and DP on Subsets; module demos also include edit distance/alignment.</p></article>
+        <article class="card"><div class="type">CO4</div><h3>Network Flow</h3><p>Ford-Fulkerson, Edmonds-Karp, Dinic, max-flow/min-cut and bipartite assignment.</p></article>
+        <article class="card"><div class="type">CO5</div><h3>NP & Approximation</h3><p>P/NP/NP-complete/NP-hard, reduction chain and Vertex Cover 2-approximation.</p></article>
+        <article class="card"><div class="type">CO6</div><h3>Randomised + Parallel</h3><p>QuickSort, Miller-Rabin, hashing, reservoir sampling, prefix/reduce and work-span.</p></article>
+      </div>
+    </section>
+
+    <div class="lab-layout">
+      <aside class="lab-menu reveal">
+        <button class="btn active" data-co="CO1">CO1 · Selection</button>
+        <button class="btn" data-co="CO2">CO2 · Strings</button>
+        <button class="btn" data-co="CO3">CO3 · Advanced DP</button>
+        <button class="btn" data-co="CO4">CO4 · Network Flow</button>
+        <button class="btn" data-co="CO5">CO5 · NP + Approximation</button>
+        <button class="btn" data-co="CO6">CO6 · Randomised + Parallel</button>
+      </aside>
+
+      <section class="card lab-output reveal">
+        <div class="field"><label>Demo query / problem hint</label><div style="display:flex;gap:10px"><input class="input" id="labQuery" value="algorithm"><button class="btn btn-primary" id="runLab">Run demonstration ↗</button></div></div>
+        <div class="lab-summary">
+          <div class="metric"><b id="labCO">CO1</b><span>course outcome</span></div>
+          <div class="metric"><b id="labTitle">Problem Classification</b><span>current module</span></div>
+          <div class="metric"><b id="labDataset">—</b><span>repository size</span></div>
+        </div>
+        <div class="notice" id="labExplain">Select a CO and run its handout-aligned demonstration.</div>
+        <h3 style="margin:24px 0 12px;text-transform:uppercase">Live Java backend output</h3>
+        <pre class="json-view" id="labJson">Waiting for execution…</pre>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer"><div class="container footer-inner"><span>CO1 · CO2 · CO3 · CO4 · CO5 · CO6</span><span>Handout-aligned · measured on the Digital Library repository</span></div></footer>
+</div>
+<script src="js/api.js"></script><script src="js/algorithm-lab.js"></script><script src="js/motion.js"></script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+const API={
+  async request(path,options={}){const res=await fetch(path,{headers:{'Content-Type':'application/json',...(options.headers||{})},...options});let data={};try{data=await res.json()}catch{}if(!res.ok)throw new Error(data.error||`Request failed (${res.status})`);return data},
+  stats(){return this.request('/api/stats')},resources(params={}){return this.request('/api/resources?'+new URLSearchParams(params))},resource(id){return this.request('/api/resource?'+new URLSearchParams({id}))},search(params){return this.request('/api/search?'+new URLSearchParams(params))},suggest(q){return this.request('/api/suggest?'+new URLSearchParams({q}))},history(){return this.request('/api/history')},
+  lab(co,q='algorithm'){const map={CO1:'classify',CO2:'string',CO3:'dp',CO4:'flow',CO5:'approximation',CO6:'co6'};return this.request(`/api/algorithms/${map[co]}?`+new URLSearchParams({q}))},parallel(q='data'){return this.request('/api/algorithms/parallel?'+new URLSearchParams({q}))},analytics(q='algorithm'){return this.request('/api/analytics?'+new URLSearchParams({q}))},
+  addResource(data){return this.request('/api/admin/resource',{method:'POST',body:JSON.stringify(data)})},updateResource(data){return this.request('/api/admin/resource',{method:'PUT',body:JSON.stringify(data)})},deleteResource(id){return this.request('/api/admin/resource?'+new URLSearchParams({id}),{method:'DELETE'})}
+};
+function esc(v=''){return String(v).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
+function fmt(n){return Number(n||0).toLocaleString()}
+function resourceCard(r){return `<article class="card resource-card fade-in is-visible"><div class="type">${esc(r.type.replaceAll('_',' '))}</div><h3>${esc(r.title)}</h3><div class="author">${esc(r.author)}</div><div class="meta"><span class="pill">${esc(r.subject)}</span><a class="btn btn-sm" href="resource.html?id=${encodeURIComponent(r.id)}">View →</a></div></article>`}
+function setActiveNav(){const file=location.pathname.split('/').pop()||'index.html';document.querySelectorAll('.nav-links a').forEach(a=>{if(a.getAttribute('href')===file)a.classList.add('active')})}
+function toast(message,isError=false){let t=document.getElementById('toast');if(!t){t=document.createElement('div');t.id='toast';t.className='toast';document.body.appendChild(t)}t.textContent=message;t.style.borderColor=isError?'rgba(239,125,125,.5)':'rgba(214,168,75,.35)';t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000)}
+document.addEventListener('DOMContentLoaded',setActiveNav);
